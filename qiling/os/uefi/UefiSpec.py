@@ -223,13 +223,69 @@ class EFI_CONFIGURATION_TABLE(STRUCT):
         ('VendorTable',    PTR(VOID)),
     ]
 
-# TODO: to be implemented
-# @see: MdePkg\Include\Protocol\SimpleTextIn.h
-EFI_SIMPLE_TEXT_INPUT_PROTOCOL = STRUCT
+#Definition for forward declaration
+class EFI_SIMPLE_TEXT_INPUT_PROTOCOL(STRUCT):
+    pass
+
+#EFI_INPUT_KEY                = (UINT16, CHAR16)
+class struct_EFI_INPUT_KEY(STRUCT):
+    _fields_ = [
+        ("ScanCode",                UINT16),
+        ("UnicodeChar",             CHAR16)
+    ]   
+
+EFI_INPUT_RESET                   = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_INPUT_PROTOCOL), BOOLEAN)
+EFI_INPUT_READ_KEY                = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_INPUT_PROTOCOL), PTR(struct_EFI_INPUT_KEY))
+
+class EFI_SIMPLE_TEXT_INPUT_PROTOCOL(STRUCT):
+    _fields_ = [
+        ("Reset",           EFI_INPUT_RESET),
+        ("ReadKeyStroke",   EFI_INPUT_READ_KEY),
+        ("WaitForKey",      EFI_EVENT)
+    ]
+
+class EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL(STRUCT):
+    pass
+
+EFI_TEXT_RESET                    = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL), BOOLEAN)
+EFI_TEXT_OUTPUT_STRING            = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL), PTR(CHAR16))
+EFI_TEXT_TEST_STRING              = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL), PTR(CHAR16))
+EFI_TEXT_QUERY_MODE               = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL), UINTN, PTR(UINTN), PTR(UINTN))
+EFI_TEXT_SET_MODE                 = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL), UINTN)
+EFI_TEXT_SET_ATTRIBUTE            = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL), UINTN)
+EFI_TEXT_CLEAR_SCREEN             = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL))
+EFI_TEXT_SET_CURSOR_POSITION      = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL), UINTN, UINTN)
+EFI_TEXT_ENABLE_CURSOR            = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL), BOOLEAN)
+
+class SIMPLE_TEXT_OUTPUT_MODE():
+    _fields_ = [
+        ("MaxMode",         INT32),
+        ("Mode",            INT32),
+        ("Attribute",       INT32),
+        ("CursorColumn",    INT32),
+        ("CursorRow",       INT32),
+        ("CursorVisible",   BOOLEAN),
+    ]
 
 # TODO: to be implemented
-# @see: MdePkg\Include\Protocol\SimpleTextOut.h
-EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL = STRUCT
+class EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL(STRUCT):
+    _fields_ = [
+        ("Reset",               EFI_TEXT_RESET),
+
+        ("OutputString",        EFI_TEXT_OUTPUT_STRING),
+        ("TestString",          EFI_TEXT_TEST_STRING),
+
+        ("QueryMode",           EFI_TEXT_QUERY_MODE),
+        ("SetMode",             EFI_TEXT_SET_MODE),
+        ("SetAttribute",        EFI_TEXT_SET_ATTRIBUTE),
+
+        ("ClearScreen",         EFI_TEXT_CLEAR_SCREEN),
+        ("SetCursorPosition",   EFI_TEXT_SET_CURSOR_POSITION),
+        ("EnableCursor",        EFI_TEXT_ENABLE_CURSOR),
+
+        ("Mode",                PTR(SIMPLE_TEXT_OUTPUT_MODE))
+    ]
+
 
 class EFI_SYSTEM_TABLE(STRUCT):
     _pack_ = 8
