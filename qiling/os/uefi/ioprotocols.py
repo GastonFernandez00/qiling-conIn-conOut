@@ -23,8 +23,7 @@ def hook_Input_Reset(ql: Qiling, address: int, params):
     "Key":              POINTER
 })
 def hook_Read_Key_Stroke(ql: Qiling, address: int, params):
-    print(params['Key'])
-    
+
     print("\n\n\n\n\n\n\nPRINT\n\n\n\n\n\n\n")
     pass    
 
@@ -47,6 +46,66 @@ def initialize_Input_Protocol(ql: Qiling, gIP: int):
     ql.os.monotonic_count = 0
     instance = init_struct(ql, gIP, descriptor)
     instance.saveTo(ql, gIP)
+
+@dxeapi(params={
+    
+})
+def hook_Text_Reset(ql: Qiling, address: int, params):
+    pass
+
+@dxeapi(params={
+    
+})
+def hook_Output_String(ql: Qiling, address: int, params):
+    pass
+
+@dxeapi(params={
+    
+})
+def hook_Test_String(ql: Qiling, address: int, params):
+    pass
+
+@dxeapi(params={
+    
+})
+def hook_Query_Mode(ql: Qiling, address: int, params):
+    pass
+
+@dxeapi(params={
+    
+})
+def hook_Set_Mode(ql: Qiling, address: int, params):
+    pass
+
+@dxeapi(params={
+    
+})
+def hook_Set_Attribute(ql: Qiling, address: int, params):
+    pass
+
+@dxeapi(params={
+    
+})
+def hook_Clear_Screen(ql: Qiling, address: int, params):
+    pass
+
+@dxeapi(params={
+    
+})
+def hook_Set_Cursor_Position(ql: Qiling, address: int, params):
+    pass
+
+@dxeapi(params={
+    
+})
+def hook_Enable_Cursor(ql: Qiling, address: int, params):
+    pass
+
+@dxeapi(params={
+    
+})
+def hook_Output_Mode(ql: Qiling, address: int, params):
+    pass
 
 def initialize_Output_Protocol(ql: Qiling, gOP: int):
     descriptor = {
