@@ -227,6 +227,32 @@ class EFI_CONFIGURATION_TABLE(STRUCT):
 class EFI_SIMPLE_TEXT_INPUT_PROTOCOL(STRUCT):
     pass
 
+class EFI_SCAN_CODE(ENUM):
+    _members_ = [
+        ('NullScanCode',    0x00),
+        ('UpArrow',         0x01),
+        ('DownArrow',       0x02),
+        ('RightArrow',      0x03),
+        ('LeftArrow',       0x04),
+        ('Home',            0x05),
+        ('End',             0x06),
+        ('Insert',          0x07),
+        ('Delete',          0x08),
+        ('PageUp',          0x09),
+        ('PageDown',        0x0a),
+        ('Function1',       0x0b),
+        ('Function2',       0x0c),
+        ('Function3',       0x0d),
+        ('Function4',       0x0e),
+        ('Function5',       0x0f),
+        ('Function6',       0x10),
+        ('Function7',       0x11),
+        ('Function8',       0x12),
+        ('Function9',       0x13),
+        ('Function10',      0x14),
+        ('Escape',          0x17)        
+    ]
+
 class struct_EFI_INPUT_KEY(STRUCT):
     _fields_ = [
         ("ScanCode",                UINT16),

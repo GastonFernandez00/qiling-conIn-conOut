@@ -11,6 +11,28 @@ from qiling.os.uefi.ProcessorBind import *
 from qiling.os.uefi.UefiSpec import *
 from qiling.os.uefi.protocols import common
 
+@dxeapi(params={
+    "Input_Interface" :     POINTER,
+    "ExtendedVerification": BOOLEAN
+})
+def hook_Input_Reset(ql: Qiling, address: int, params):
+    pass
+
+@dxeapi(params={
+    "Input_Interface":  POINTER,
+    "Key":              POINTER
+})
+def hook_Read_Key_Stroke(ql: Qiling, address: int, params):
+    print(params['Key'])
+    
+    print("\n\n\n\n\n\n\nPRINT\n\n\n\n\n\n\n")
+    pass    
+
+# @dxeapi(params={
+    
+# })
+# def hook_EFI_Event(ql: Qiling, address: int, params):
+#     pass
 
 def initialize_Input_Protocol(ql: Qiling, gIP: int):
     descriptor = {
@@ -18,7 +40,7 @@ def initialize_Input_Protocol(ql: Qiling, gIP: int):
         'fields' : (
             ('Reset',               hook_Input_Reset),
             ('ReadKeyStroke',       hook_Read_Key_Stroke),
-            ('WaitForKey',          hook_EFI_Event)
+            ('WaitForKey',          None)
         )
     }
 
@@ -42,7 +64,7 @@ def initialize_Output_Protocol(ql: Qiling, gOP: int):
             ('ClearScreen',         hook_Clear_Screen),
             ('SetCursorPosition',   hook_Set_Cursor_Position),
             ('EnableCursor',        hook_Enable_Cursor),
-            ('Mode')
+            ('Mode',                hook_Output_Mode)
         )
     }
 
