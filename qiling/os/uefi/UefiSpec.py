@@ -227,7 +227,6 @@ class EFI_CONFIGURATION_TABLE(STRUCT):
 class EFI_SIMPLE_TEXT_INPUT_PROTOCOL(STRUCT):
     pass
 
-#EFI_INPUT_KEY                = (UINT16, CHAR16)
 class struct_EFI_INPUT_KEY(STRUCT):
     _fields_ = [
         ("ScanCode",                UINT16),
@@ -244,6 +243,7 @@ class EFI_SIMPLE_TEXT_INPUT_PROTOCOL(STRUCT):
         ("WaitForKey",      EFI_EVENT)
     ]
 
+#Definition for forward declaration
 class EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL(STRUCT):
     pass
 
@@ -267,7 +267,6 @@ class SIMPLE_TEXT_OUTPUT_MODE(STRUCT):
         ("CursorVisible",   BOOLEAN),
     ]
 
-# TODO: to be implemented
 class EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL(STRUCT):
     _fields_ = [
         ("Reset",               EFI_TEXT_RESET),
