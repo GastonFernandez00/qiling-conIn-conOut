@@ -60,8 +60,8 @@ def initialize(ql: Qiling, context: UefiContext, gST: int):
 
     ql.log.info(f'Global tables:')
     ql.log.info(f' | gST   {gST:#010x}')
-    ql.log.info(f' | gIP   {gBS:#010x}')
-    ql.log.info(f' | gOP   {gBS:#010x}')
+    ql.log.info(f' | gIP   {gIP:#010x}')
+    ql.log.info(f' | gOP   {gOP:#010x}')
     ql.log.info(f' | gBS   {gBS:#010x}')
     ql.log.info(f' | gRT   {gRT:#010x}')
     ql.log.info(f' | gDS   {gDS:#010x}')

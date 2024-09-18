@@ -19,19 +19,17 @@ def hook_Input_Reset(ql: Qiling, address: int, params):
     pass
 
 @dxeapi(params={
-    "Input_Interface":  POINTER,
-    "Key":              POINTER
+    "This":         POINTER,
+    "Key":          POINTER
 })
 def hook_Read_Key_Stroke(ql: Qiling, address: int, params):
-
-    print("\n\n\n\n\n\n\nPRINT\n\n\n\n\n\n\n")
     pass    
 
-# @dxeapi(params={
+@dxeapi(params={
     
-# })
-# def hook_EFI_Event(ql: Qiling, address: int, params):
-#     pass
+})
+def hook_EFI_Event(ql: Qiling, address: int, params):
+    pass
 
 def initialize_Input_Protocol(ql: Qiling, gIP: int):
     descriptor = {
@@ -54,15 +52,25 @@ def hook_Text_Reset(ql: Qiling, address: int, params):
     pass
 
 @dxeapi(params={
-    
+    "This"      : POINTER,
+    "String"    : POINTER
 })
 def hook_Output_String(ql: Qiling, address: int, params):
-    pass
+    print(ql.os.utils.read_wstring(params['String']))
 
 @dxeapi(params={
-    
+    'This'  :       POINTER,
+    'String':       POINTER
 })
 def hook_Test_String(ql: Qiling, address: int, params):
+    address = params['String']
+
+    string1 = ql.os.utils.read_wstring(params['String'])
+    string2 = read_int64(ql,params['String'])
+    print(string1)
+
+
+    print("\n\n\n\n\n\n\nFUNCTION-HOOK_TEST_STRING\n\n\n\n\n\n\n")
     pass
 
 @dxeapi(params={
