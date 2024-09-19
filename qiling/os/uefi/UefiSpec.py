@@ -223,13 +223,94 @@ class EFI_CONFIGURATION_TABLE(STRUCT):
         ('VendorTable',    PTR(VOID)),
     ]
 
-# TODO: to be implemented
-# @see: MdePkg\Include\Protocol\SimpleTextIn.h
-EFI_SIMPLE_TEXT_INPUT_PROTOCOL = STRUCT
+#Definition for forward declaration
+class EFI_SIMPLE_TEXT_INPUT_PROTOCOL(STRUCT):
+    pass
 
-# TODO: to be implemented
-# @see: MdePkg\Include\Protocol\SimpleTextOut.h
-EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL = STRUCT
+class EFI_SCAN_CODE(ENUM):
+    _members_ = [
+        ('NullScanCode',    0x00),
+        ('UpArrow',         0x01),
+        ('DownArrow',       0x02),
+        ('RightArrow',      0x03),
+        ('LeftArrow',       0x04),
+        ('Home',            0x05),
+        ('End',             0x06),
+        ('Insert',          0x07),
+        ('Delete',          0x08),
+        ('PageUp',          0x09),
+        ('PageDown',        0x0a),
+        ('Function1',       0x0b),
+        ('Function2',       0x0c),
+        ('Function3',       0x0d),
+        ('Function4',       0x0e),
+        ('Function5',       0x0f),
+        ('Function6',       0x10),
+        ('Function7',       0x11),
+        ('Function8',       0x12),
+        ('Function9',       0x13),
+        ('Function10',      0x14),
+        ('Escape',          0x17)        
+    ]
+
+class struct_EFI_INPUT_KEY(STRUCT):
+    _fields_ = [
+        ("ScanCode",                UINT16),
+        ("UnicodeChar",             CHAR16)
+    ]   
+
+EFI_INPUT_RESET                   = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_INPUT_PROTOCOL), BOOLEAN)
+EFI_INPUT_READ_KEY                = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_INPUT_PROTOCOL), PTR(struct_EFI_INPUT_KEY))
+
+class EFI_SIMPLE_TEXT_INPUT_PROTOCOL(STRUCT):
+    _fields_ = [
+        ("Reset",           EFI_INPUT_RESET),
+        ("ReadKeyStroke",   EFI_INPUT_READ_KEY),
+        ("WaitForKey",      EFI_EVENT)
+    ]
+
+#Definition for forward declaration
+class EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL(STRUCT):
+    pass
+
+EFI_TEXT_RESET                    = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL), BOOLEAN)
+EFI_TEXT_OUTPUT_STRING            = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL), PTR(CHAR16))
+EFI_TEXT_TEST_STRING              = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL), PTR(CHAR16))
+EFI_TEXT_QUERY_MODE               = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL), UINTN, PTR(UINTN), PTR(UINTN))
+EFI_TEXT_SET_MODE                 = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL), UINTN)
+EFI_TEXT_SET_ATTRIBUTE            = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL), UINTN)
+EFI_TEXT_CLEAR_SCREEN             = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL))
+EFI_TEXT_SET_CURSOR_POSITION      = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL), UINTN, UINTN)
+EFI_TEXT_ENABLE_CURSOR            = FUNCPTR(EFI_STATUS, PTR(EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL), BOOLEAN)
+
+class SIMPLE_TEXT_OUTPUT_MODE(STRUCT):
+    _fields_ = [
+        ("MaxMode",         INT32),
+        ("Mode",            INT32),
+        ("Attribute",       INT32),
+        ("CursorColumn",    INT32),
+        ("CursorRow",       INT32),
+        ("CursorVisible",   BOOLEAN),
+    ]
+
+class EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL(STRUCT):
+    _fields_ = [
+        ("Reset",               EFI_TEXT_RESET),
+
+        ("OutputString",        EFI_TEXT_OUTPUT_STRING),
+        ("TestString",          EFI_TEXT_TEST_STRING),
+
+        ("QueryMode",           EFI_TEXT_QUERY_MODE),
+        ("SetMode",             EFI_TEXT_SET_MODE),
+        ("SetAttribute",        EFI_TEXT_SET_ATTRIBUTE),
+
+        ("ClearScreen",         EFI_TEXT_CLEAR_SCREEN),
+        ("SetCursorPosition",   EFI_TEXT_SET_CURSOR_POSITION),
+        ("EnableCursor",        EFI_TEXT_ENABLE_CURSOR),
+
+        ("Mode",                PTR(SIMPLE_TEXT_OUTPUT_MODE))
+    ]
+
 
 class EFI_SYSTEM_TABLE(STRUCT):
     _pack_ = 8

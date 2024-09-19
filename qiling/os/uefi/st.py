@@ -4,7 +4,7 @@
 #
 
 from qiling import Qiling
-from qiling.os.uefi import bs, rt, ds
+from qiling.os.uefi import bs, ioprotocols, rt, ds
 from qiling.os.uefi.context import UefiContext
 from qiling.os.uefi.utils import install_configuration_table
 from qiling.os.uefi.UefiSpec import EFI_SYSTEM_TABLE, EFI_BOOT_SERVICES, EFI_RUNTIME_SERVICES
@@ -51,23 +51,31 @@ from qiling.os.uefi.UefiSpec import EFI_SYSTEM_TABLE, EFI_BOOT_SERVICES, EFI_RUN
 def initialize(ql: Qiling, context: UefiContext, gST: int):
     ql.loader.gST = gST
 
-    gBS = gST + EFI_SYSTEM_TABLE.sizeof()        # boot services
+    gIP = gST + EFI_SYSTEM_TABLE.sizeof()       # input protocols
+    gOP = gIP + EFI_SYSTEM_TABLE.sizeof()       # output protocols
+    gBS = gOP + EFI_SYSTEM_TABLE.sizeof()        # boot services
     gRT = gBS + EFI_BOOT_SERVICES.sizeof()        # runtime services
     gDS = gRT + EFI_RUNTIME_SERVICES.sizeof()    # dxe services
     cfg = gDS + ds.EFI_DXE_SERVICES.sizeof()    # configuration tables array
 
     ql.log.info(f'Global tables:')
     ql.log.info(f' | gST   {gST:#010x}')
+    ql.log.info(f' | gIP   {gIP:#010x}')
+    ql.log.info(f' | gOP   {gOP:#010x}')
     ql.log.info(f' | gBS   {gBS:#010x}')
     ql.log.info(f' | gRT   {gRT:#010x}')
     ql.log.info(f' | gDS   {gDS:#010x}')
     ql.log.info(f'')
 
+    ioprotocols.initialize_Input_Protocol(ql, gIP)
+    ioprotocols.initialize_Output_Protocol(ql, gOP)
     bs.initialize(ql, gBS)
     rt.initialize(ql, gRT)
     ds.initialize(ql, gDS)
 
     instance = EFI_SYSTEM_TABLE()
+    instance.ConIn = gIP
+    instance.ConOut = gOP
     instance.RuntimeServices = gRT
     instance.BootServices = gBS
     instance.NumberOfTableEntries = 0
