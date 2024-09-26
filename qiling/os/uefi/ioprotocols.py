@@ -1,5 +1,5 @@
 from binascii import crc32
-
+import chardet
 from qiling.const import QL_ENDIAN
 from qiling.os.const import *
 from qiling.os.uefi import guids_db
@@ -52,25 +52,28 @@ def hook_Text_Reset(ql: Qiling, address: int, params):
     pass
 
 @dxeapi(params={
-    "This"      : POINTER,
-    "String"    : POINTER
+    "This"      : POINTER,  # IN PTR(EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL)
+    "String"    : POINTER   # IN PTR(CHAR16)
 })
 def hook_Output_String(ql: Qiling, address: int, params):
-    print(ql.os.utils.read_wstring(params['String']))
+    String = ql.os.utils.read_wstring(params['String'])
+    print(String)
+
+    # TODO: Check cases for the other EFI returns
+    # TODO: The OutputString structure should be able to receive the string directly
+    # Otherwise this will only output the string if it's declared as a CHAR16* str = L"<text>"
+    # and passed to the structure.
+
+    return EFI_SUCCESS
+    # return EFI_DEVICE_ERROR
+    # return EFI_UNSUPPORTED
+    # return WARN_UNKNOWN_GLYPH
 
 @dxeapi(params={
     'This'  :       POINTER,
     'String':       POINTER
 })
 def hook_Test_String(ql: Qiling, address: int, params):
-    address = params['String']
-
-    string1 = ql.os.utils.read_wstring(params['String'])
-    string2 = read_int64(ql,params['String'])
-    print(string1)
-
-
-    print("\n\n\n\n\n\n\nFUNCTION-HOOK_TEST_STRING\n\n\n\n\n\n\n")
     pass
 
 @dxeapi(params={
